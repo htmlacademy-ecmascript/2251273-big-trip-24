@@ -1,7 +1,7 @@
 # Проект «Большое путешествие»
 
 * Студент: [Виталий Еченко](https://up.htmlacademy.ru/ecmascript/24/user/2251273).
-* Наставник: `Неизвестно`.
+* Наставник: [Евгений Лепёшкин](https://htmlacademy.ru/profile/spearance).
 
 ---
 
