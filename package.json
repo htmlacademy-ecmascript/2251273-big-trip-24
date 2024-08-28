@@ -25,6 +25,9 @@
   },
   "browserslist" : [
     "last 2 versions",
-    "ie >= 11"
+    "ie <= 11",
+    "not dead",
+    "not op_mini all",
+    "not < 0.25%"
   ]
 }
