@@ -8,7 +8,7 @@ import {render} from '../render';
 const COUNT_TRIP_EVENTS = 3;
 
 class MainPresenter {
-  // список событий (компонент)
+  // список событий
   tripEventsListComponent = new TripEventsListView();
 
   constructor({container}) {

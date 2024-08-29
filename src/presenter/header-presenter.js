@@ -6,7 +6,7 @@ import TripInfoCostView from '../view/trip-info-cost-view';
 import { render } from '../render';
 
 class HeaderPresenter {
-
+  // информация о маршруте
   TripInfoViewComponent = new TripInfoView();
 
   constructor({tripInfoContainer, filtersContainer}) {
