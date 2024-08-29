@@ -12,12 +12,13 @@ const pageMain = document.querySelector('.page-main');
 const pageMainContainer = pageMain.querySelector('.page-body__container');
 const tripEvents = pageMainContainer.querySelector('.trip-events');
 
-// Filters
+// Header
 const headerFiltersContainer = new HeaderPresenter({
-  container: tripControlsFiltersContainer
+  tripInfoContainer: pageHeaderContentContainer,
+  filtersContainer: tripControlsFiltersContainer
 });
 
-// Sort
+// Main
 const mainSortContainer = new MainPresenter({
   container: tripEvents
 });
