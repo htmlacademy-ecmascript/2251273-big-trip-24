@@ -20,8 +20,8 @@ class HeaderPresenter {
     render(new TripInfoMainView(), this.TripInfoViewComponent.getElement());
     // отрисовка информации о стоимости
     render(new TripInfoCostView(), this.TripInfoViewComponent.getElement());
-    // отрисовка информации о маршруте
 
+    // отрисовка информации о маршруте
     render(this.TripInfoViewComponent, this.tripInfoContainer, 'AFTERBEGIN');
 
     // отрисовка фильтров
