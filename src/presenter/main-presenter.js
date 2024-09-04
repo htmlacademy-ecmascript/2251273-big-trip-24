@@ -1,21 +1,27 @@
-import SortView from '../view/sort-view';
-import TripEventsListView from '../view/trip-events-list-view';
-import TripEventsItemView from '../view/trip-events-item-view';
-import EditEventFormView from '../view/edit-form-view';
+import SortView from '../view/sort-view/sort-view.js';
+import TripEventsListView from '../view/trip-events-view/trip-events-list-view.js';
+import TripEventsItemView from '../view/trip-events-view/trip-events-item-view.js';
+import EditEventFormView from '../view/form-view/edit-event-form-view.js';
+import AddEventFormView from '../view/form-view/add-event-form-view.js';
 
-import {render} from '../render';
+import {render} from '../render.js';
 
-const COUNT_TRIP_EVENTS = 3;
+import {COUNT_TRIP_EVENTS} from '../constants.js';
 
 class MainPresenter {
   // список событий
   tripEventsListComponent = new TripEventsListView();
 
-  constructor({container}) {
+  // конструктор
+  constructor(container, tripEventsModel) {
     this.container = container;
+    this.tripEventsModel = tripEventsModel;
   }
 
   init() {
+    // список событий из конструктора
+    this.events = [...this.tripEventsModel.getEvents()];
+
     // отрисовка сортировки
     render(new SortView(), this.container);
 
@@ -25,11 +31,14 @@ class MainPresenter {
 
     // отрисовка формы редактирования
     // добавление в компонет списка событий элемемта
+    render(new AddEventFormView(), this.tripEventsListComponent.getElement());
     render(new EditEventFormView(), this.tripEventsListComponent.getElement());
 
-
+    // отрисовка списка событий
     for (let i = 0; i < COUNT_TRIP_EVENTS; i++) {
-      render(new TripEventsItemView(), this.tripEventsListComponent.getElement());
+
+      // добавление в компонет списка событий элемемта
+      render(new TripEventsItemView(this.events[i]), this.tripEventsListComponent.getElement());
     }
   }
 }

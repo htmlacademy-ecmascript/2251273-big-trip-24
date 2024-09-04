@@ -1,6 +1,6 @@
-import { createElement } from '../render.js';
+import { createElement } from '../../render.js';
 
-function createEditEventForm() {
+function createAddEventForm() {
   return `<li class="trip-events__item">
               <form class="event event--edit" action="#" method="post">
                 <header class="event__header">
@@ -165,9 +165,9 @@ function createEditEventForm() {
             </li>`;
 }
 
-class EditEventForm {
+class AddEventFormView {
   getTemplate() {
-    return createEditEventForm();
+    return createAddEventForm();
   }
 
   getElement() {
@@ -183,4 +183,4 @@ class EditEventForm {
   }
 }
 
-export default EditEventForm;
+export default AddEventFormView;

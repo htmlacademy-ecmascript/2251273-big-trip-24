@@ -1,6 +1,8 @@
 import HeaderPresenter from './presenter/header-presenter.js';
 import MainPresenter from './presenter/main-presenter.js';
 
+import EventsModel from './model/events-model.js';
+
 // Containers Header
 const pageHeader = document.querySelector('.page-header');
 const pageHeaderContainer = pageHeader.querySelector('.page-header__container');
@@ -12,18 +14,15 @@ const pageMain = document.querySelector('.page-main');
 const pageMainContainer = pageMain.querySelector('.page-body__container');
 const tripEvents = pageMainContainer.querySelector('.trip-events');
 
+// Model
+const eventsModel = new EventsModel();
+
 // Header
-const headerFiltersContainer = new HeaderPresenter({
-  tripInfoContainer: pageHeaderContentContainer,
-  filtersContainer: tripControlsFiltersContainer
-});
+const headerContainer = new HeaderPresenter(pageHeaderContentContainer, tripControlsFiltersContainer, eventsModel);
 
 // Main
-const mainSortContainer = new MainPresenter({
-  container: tripEvents
-});
+const mainContainer = new MainPresenter(tripEvents, eventsModel);
 
-// init headerPresenter
-headerFiltersContainer.init();
-mainSortContainer.init();
-
+// init
+headerContainer.init();
+mainContainer.init();
