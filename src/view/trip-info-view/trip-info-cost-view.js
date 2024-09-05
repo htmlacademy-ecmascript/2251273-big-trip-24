@@ -1,14 +1,18 @@
 import { createElement } from '../../render.js';
 
-function createTripInfoCost() {
+function createTripInfoCost(point) {
   return `<p class="trip-info__cost">
-            Total: &euro;&nbsp;<span class="trip-info__cost-value">1230</span>
+            Total: &euro;&nbsp;<span class="trip-info__cost-value">${point}</span>
           </p>`;
 }
 
 class TripInfoCostView {
+  constructor(event) {
+    this.event = event;
+  }
+
   getTemplate() {
-    return createTripInfoCost();
+    return createTripInfoCost(this.event);
   }
 
   getElement() {

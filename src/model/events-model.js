@@ -22,7 +22,7 @@ class EventsModel {
         event: eventItem,
         city: this.getCityById(eventItem.destination),
         selectedOffers: this.getSelectedOffers(eventItem.type, eventItem.offers),
-        amountSelectedOffers: this.getSelectedOffers(eventItem.type, eventItem.offers).reduce((acc, offer) => acc + offer.price, 0),
+        costEvent: eventItem.basePrice + this.getSelectedOffers(eventItem.type, eventItem.offers).reduce((acc, offer) => acc + offer.price, 0),
       };
       eventsArray.push(eventInfo);
     });

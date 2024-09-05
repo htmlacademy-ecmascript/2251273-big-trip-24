@@ -19,7 +19,7 @@ function createTripEventsList(point) {
                   <p class="event__duration">${getEventDurationTime(point.event.dateFrom, point.event.dateTo)}</p>
                 </div>
                 <p class="event__price">
-                  &euro;&nbsp;<span class="event__price-value">${point.event.basePrice + point.amountSelectedOffers}</span>
+                  &euro;&nbsp;<span class="event__price-value">${point.costEvent}</span>
                 </p>
                 <h4 class="visually-hidden">Offers:</h4>
                 <ul class="event__selected-offers">
