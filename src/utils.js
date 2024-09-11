@@ -26,4 +26,8 @@ function getEventDurationTime(dateStart, dateEnd) {
   return durationTime;
 }
 
-export {getRandomArrayElement, getFormettedEventDate, getEventDurationTime};
+function tracksClickEscape(evt) {
+  return evt.key === 'Escape';
+}
+
+export {getRandomArrayElement, getFormettedEventDate, getEventDurationTime, tracksClickEscape};

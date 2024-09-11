@@ -21,6 +21,7 @@ class EventsModel {
       const eventInfo = {
         event: eventItem,
         city: this.getCityById(eventItem.destination),
+        allOffers: this.getOffersByEventType(eventItem.type),
         selectedOffers: this.getSelectedOffers(eventItem.type, eventItem.offers),
         costEvent: eventItem.basePrice + this.getSelectedOffers(eventItem.type, eventItem.offers).reduce((acc, offer) => acc + offer.price, 0),
       };
