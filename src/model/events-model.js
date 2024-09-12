@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+// import dayjs from 'dayjs';
 
 import { COUNT_TRIP_EVENTS } from '../constants.js';
 
@@ -8,21 +8,23 @@ import { getMockCities } from '../mock/cities-mock.js';
 
 
 class EventsModel {
-  events = Array.from({ length: COUNT_TRIP_EVENTS }, getRandomMockEvent);
-  offers = getMockOffers();
-  cities = getMockCities();
+  #events = Array.from({ length: COUNT_TRIP_EVENTS }, getRandomMockEvent);
+  #offers = getMockOffers();
+  #cities = getMockCities();
 
   getEvents() {
     const eventsArray = [];
 
-    const sortedEvents = this.events.sort((a, b) => dayjs(a.dateFrom).diff(dayjs(b.dateFrom)));
+    const sortedEvents = this.#events.sort((a, b) => a.basePrice - b.basePrice);
 
     sortedEvents.forEach((eventItem) => {
       const eventInfo = {
         event: eventItem,
         city: this.getCityById(eventItem.destination),
-        allOffers: this.getOffersByEventType(eventItem.type),
-        selectedOffers: this.getSelectedOffers(eventItem.type, eventItem.offers),
+        offers: {
+          all: this.getOffersByEventType(eventItem.type),
+          selected: this.getSelectedOffers(eventItem.type, eventItem.offers),
+        },
         costEvent: eventItem.basePrice + this.getSelectedOffers(eventItem.type, eventItem.offers).reduce((acc, offer) => acc + offer.price, 0),
       };
       eventsArray.push(eventInfo);
@@ -31,7 +33,7 @@ class EventsModel {
   }
 
   getOffers() {
-    return this.offers;
+    return this.#offers;
   }
 
   getSelectedOffers(type, offers) {
@@ -45,7 +47,7 @@ class EventsModel {
   }
 
   getCities() {
-    return this.cities;
+    return this.#cities;
   }
 
   getCityById(id) {

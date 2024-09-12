@@ -1,7 +1,7 @@
 import AbstractView from '../../framework/view/abstract-view.js';
 
 import { getFormettedEventDate } from '../../utils.js';
-import { DATE_FORMAT } from '../../constants.js';
+import { DATE_FORMAT, EVENT_TYPES } from '../../constants.js';
 
 function createEditEventForm(point) {
   return `<li class="trip-events__item">
@@ -17,51 +17,10 @@ function createEditEventForm(point) {
                     <div class="event__type-list">
                       <fieldset class="event__type-group">
                         <legend class="visually-hidden">Event type</legend>
-
-                        <div class="event__type-item">
-                          <input id="event-type-taxi-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="taxi" checked>
-                          <label class="event__type-label  event__type-label--taxi" for="event-type-taxi-1">Taxi</label>
-                        </div>
-
-                        <div class="event__type-item">
-                          <input id="event-type-bus-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="bus">
-                          <label class="event__type-label  event__type-label--bus" for="event-type-bus-1">Bus</label>
-                        </div>
-
-                        <div class="event__type-item">
-                          <input id="event-type-train-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="train">
-                          <label class="event__type-label  event__type-label--train" for="event-type-train-1">Train</label>
-                        </div>
-
-                        <div class="event__type-item">
-                          <input id="event-type-ship-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="ship">
-                          <label class="event__type-label  event__type-label--ship" for="event-type-ship-1">Ship</label>
-                        </div>
-
-                        <div class="event__type-item">
-                          <input id="event-type-drive-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="drive">
-                          <label class="event__type-label  event__type-label--drive" for="event-type-drive-1">Drive</label>
-                        </div>
-
-                        <div class="event__type-item">
-                          <input id="event-type-flight-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="flight">
-                          <label class="event__type-label  event__type-label--flight" for="event-type-flight-1">Flight</label>
-                        </div>
-
-                        <div class="event__type-item">
-                          <input id="event-type-check-in-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="check-in">
-                          <label class="event__type-label  event__type-label--check-in" for="event-type-check-in-1">Check-in</label>
-                        </div>
-
-                        <div class="event__type-item">
-                          <input id="event-type-sightseeing-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="sightseeing">
-                          <label class="event__type-label  event__type-label--sightseeing" for="event-type-sightseeing-1">Sightseeing</label>
-                        </div>
-
-                        <div class="event__type-item">
-                          <input id="event-type-restaurant-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="restaurant">
-                          <label class="event__type-label  event__type-label--restaurant" for="event-type-restaurant-1">Restaurant</label>
-                        </div>
+                        ${EVENT_TYPES.map((type) => `<div class="event__type-item">
+                          <input id="event-type-${type.toLowerCase()}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type.toLowerCase()}" ${point.event.type === type.toLowerCase() ? 'checked' : ''}>
+                          <label class="event__type-label  event__type-label--${type.toLowerCase()}" for="event-type-${type.toLowerCase()}-1">${type}</label>
+                        </div>`).join('')}
                       </fieldset>
                     </div>
                   </div>
@@ -105,10 +64,10 @@ function createEditEventForm(point) {
                     <h3 class="event__section-title  event__section-title--offers">Offers</h3>
                     <div class="event__available-offers">
 
-                      ${point.allOffers.map((offer) => `
+                      ${point.offers.all.map((offer) => `
                       <div class="event__offer-selector">
-                        <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-1" type="checkbox" name="event-offer-luggage">
-                        <label class="event__offer-label" for="event-offer-luggage-1">
+                        <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offer.title.split(' ').at(-1)}-${1}" type="checkbox" name="event-offer-${offer.title.split(' ').at(-1)}" ${point.event.offers.includes(offer.id) ? 'checked' : ''}>
+                        <label class="event__offer-label" for="event-offer-${offer.title.split(' ').at(-1)}-${1}">
                           <span class="event__offer-title">${offer.title}</span>
                           &plus;&euro;&nbsp;
                           <span class="event__offer-price">${offer.price}</span>
@@ -129,19 +88,28 @@ function createEditEventForm(point) {
 
 class EditEventForm extends AbstractView {
   #event;
-  constructor(event, closeEditEventForm) {
+  constructor(event, closeEditEventForm, onFormSubmit) {
     super();
     this.#event = event;
     this.#closeEditEventForm = closeEditEventForm;
+    this.#onFormSubmit = onFormSubmit;
 
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#closeEditEventForm);
+
+    this.element.querySelector('.event--edit').addEventListener('submit', this.#onFormSubmit);
   }
 
   get template() {
     return createEditEventForm(this.#event);
   }
 
+  // закрытие формы
   #closeEditEventForm = (evt) => {
+    evt.preventDefault();
+  };
+
+  // отправка формы
+  #onFormSubmit = (evt) => {
     evt.preventDefault();
   };
 }

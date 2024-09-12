@@ -13,6 +13,21 @@ const EVENT_TYPES = [
   'Restaurant',
 ];
 
+const EVENT_SORT = [
+  'day',
+  'event',
+  'time',
+  'price',
+  'offer'
+];
+
+const EVENT_FILTER = [
+  'everything',
+  'future',
+  'present',
+  'past'
+];
+
 const DATE_FORMAT = {
   EVENT_TIME_FORMAT: 'HH:mm',
   EVENT_DATE_FORMAT: 'MMM DD',
@@ -26,4 +41,4 @@ const DATE_FORMAT = {
 const HOURS = 24;
 const MINUTES = 60;
 
-export {COUNT_TRIP_EVENTS, DATE_FORMAT, HOURS, MINUTES, EVENT_TYPES};
+export {COUNT_TRIP_EVENTS, DATE_FORMAT, HOURS, MINUTES, EVENT_TYPES, EVENT_SORT, EVENT_FILTER};
