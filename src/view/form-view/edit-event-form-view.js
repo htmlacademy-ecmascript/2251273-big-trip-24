@@ -18,8 +18,8 @@ function createEditEventForm(point) {
                       <fieldset class="event__type-group">
                         <legend class="visually-hidden">Event type</legend>
                         ${EVENT_TYPES.map((type) => `<div class="event__type-item">
-                          <input id="event-type-${type.toLowerCase()}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type.toLowerCase()}" ${point.event.type === type.toLowerCase() ? 'checked' : ''}>
-                          <label class="event__type-label  event__type-label--${type.toLowerCase()}" for="event-type-${type.toLowerCase()}-1">${type}</label>
+                          <input id="event-type-${type}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type}" ${point.event.type === type ? 'checked' : ''}>
+                          <label class="event__type-label  event__type-label--${type}" for="event-type-${type}-1">${type}</label>
                         </div>`).join('')}
                       </fieldset>
                     </div>
