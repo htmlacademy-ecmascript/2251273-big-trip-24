@@ -26,6 +26,8 @@ function getEventDurationTime(dateStart, dateEnd) {
   return durationTime;
 }
 
+
+// функция отслеживает нажатие Esc
 function tracksClickEscape(evt) {
   return evt.key === 'Escape';
 }
