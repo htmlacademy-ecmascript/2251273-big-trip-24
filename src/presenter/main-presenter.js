@@ -33,17 +33,6 @@ class MainPresenter {
     // отрисовка списка событий
     // добавление в компонет списка событий элемемта
     render(this.#tripEventsListComponent, this.#container);
-
-    // отрисовка формы редактирования
-    // добавление в компонет списка событий элемемта
-    // render(new AddEventFormView(), this.#tripEventsListComponent.element);
-    // render(new EditEventFormView(), this.#tripEventsListComponent.element);
-
-    // отрисовка списка событий
-    // for (let i = 0; i < COUNT_TRIP_EVENTS; i++) {
-    //   this.renderEvent(this.#events[i]);
-    // }
-
     this.renderEvents();
   }
 
@@ -65,15 +54,26 @@ class MainPresenter {
     };
 
     // добавление в компонет списка событий элемемта
-    const eventComponent = new TripEventsItemView(event, () => {
-      replaceToEventEditComponent();
-      document.addEventListener('keydown', escKeyDownHandler);
-    });
+    const eventComponent = new TripEventsItemView(
+      event, // точка маршрута
+      () => {
+        replaceToEventEditComponent();
+        document.addEventListener('keydown', escKeyDownHandler);
+      } // открытие формы редактирования
+    );
 
-    const eventEditComponent = new EditEventFormView(event, () => {
-      replaceToEventComponent();
-      document.removeEventListener('keydown', escKeyDownHandler);
-    });
+    // добавление в компонет списка событий элемемта
+    const eventEditComponent = new EditEventFormView(
+      event, // точка маршрута
+      () => {
+        replaceToEventComponent();
+        document.removeEventListener('keydown', escKeyDownHandler);
+      }, // закрытие формы редактирования
+      () => {
+        replaceToEventComponent();
+        document.removeEventListener('keydown', escKeyDownHandler);
+      }, // отправка формы
+    );
 
 
     function replaceToEventComponent() {

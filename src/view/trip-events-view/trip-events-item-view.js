@@ -23,7 +23,7 @@ function createTripEventsList(point) {
                 </p>
                 <h4 class="visually-hidden">Offers:</h4>
                 <ul class="event__selected-offers">
-                  ${point.selectedOffers.map((offer) => `<li class="event__offer")>
+                  ${point.offers.selected.map((offer) => `<li class="event__offer")>
                     <span class="event__offer-title">${offer.title}</span>
                     &plus;&euro;&nbsp;
                     <span class="event__offer-price">${offer.price}</span>
