@@ -18,10 +18,17 @@ const tripEvents = pageMainContainer.querySelector('.trip-events');
 const eventsModel = new EventsModel();
 
 // Header
-const headerContainer = new HeaderPresenter(pageHeaderContentContainer, tripControlsFiltersContainer, eventsModel);
+const headerContainer = new HeaderPresenter(
+  pageHeaderContentContainer,
+  tripControlsFiltersContainer,
+  eventsModel
+);
 
 // Main
-const mainContainer = new MainPresenter(tripEvents, eventsModel);
+const mainContainer = new MainPresenter(
+  tripEvents,
+  eventsModel
+);
 
 // init
 headerContainer.init();

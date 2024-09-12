@@ -1,30 +1,24 @@
-import { createElement } from '../../render.js';
+import AbstractView from '../../framework/view/abstract-view.js';
 
-function createTripInfoCost(point) {
+function createTripInfoCost(fullCost) {
   return `<p class="trip-info__cost">
-            Total: &euro;&nbsp;<span class="trip-info__cost-value">${point}</span>
+            Total: &euro;&nbsp;<span class="trip-info__cost-value">${fullCost}</span>
           </p>`;
 }
 
-class TripInfoCostView {
+class TripInfoCostView extends AbstractView {
+  #event;
   constructor(event) {
-    this.event = event;
+    super();
+    this.#event = event;
   }
 
-  getTemplate() {
-    return createTripInfoCost(this.event);
+  get template() {
+    return createTripInfoCost(this.getFullCost());
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
+  getFullCost() {
+    return this.#event.reduce((acc, item) => acc + item.event.basePrice, 0);
   }
 }
 

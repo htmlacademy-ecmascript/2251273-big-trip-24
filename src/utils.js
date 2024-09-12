@@ -26,4 +26,10 @@ function getEventDurationTime(dateStart, dateEnd) {
   return durationTime;
 }
 
-export {getRandomArrayElement, getFormettedEventDate, getEventDurationTime};
+
+// функция отслеживает нажатие Esc
+function tracksClickEscape(evt) {
+  return evt.key === 'Escape';
+}
+
+export {getRandomArrayElement, getFormettedEventDate, getEventDurationTime, tracksClickEscape};

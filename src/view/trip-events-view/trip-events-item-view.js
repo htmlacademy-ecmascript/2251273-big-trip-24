@@ -1,4 +1,4 @@
-import { createElement } from '../../render.js';
+import AbstractView from '../../framework/view/abstract-view.js';
 import { getFormettedEventDate, getEventDurationTime } from '../../utils.js';
 import { DATE_FORMAT } from '../../constants.js';
 
@@ -42,26 +42,23 @@ function createTripEventsList(point) {
             </li>`;
 }
 
-class TripEventsItemView {
-  constructor(event) {
-    this.event = event;
+class TripEventsItemView extends AbstractView {
+  #event;
+  constructor(event, openEditEventForm) {
+    super();
+    this.#event = event;
+    this.#openEditEventForm = openEditEventForm;
+
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#openEditEventForm);
   }
 
-  getTemplate() {
-    return createTripEventsList(this.event);
+  get template() {
+    return createTripEventsList(this.#event);
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
-  }
+  #openEditEventForm = (evt) => {
+    evt.preventDefault();
+  };
 }
 
 export default TripEventsItemView;
