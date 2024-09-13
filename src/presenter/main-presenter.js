@@ -3,6 +3,7 @@ import TripEventsListView from '../view/trip-events-view/trip-events-list-view.j
 import TripEventsItemView from '../view/trip-events-view/trip-events-item-view.js';
 import EditEventFormView from '../view/form-view/edit-event-form-view.js';
 // import AddEventFormView from '../view/form-view/add-event-form-view.js';
+import EmptyListView from '../view/empty-list-view/empty-list-view.js';
 
 import { render, replace } from '../framework/render.js';
 
@@ -32,8 +33,13 @@ class MainPresenter {
 
     // отрисовка списка событий
     // добавление в компонет списка событий элемемта
-    render(this.#tripEventsListComponent, this.#container);
     this.renderEvents();
+
+    if (this.#events.length !== 0) {
+      render(this.#tripEventsListComponent, this.#container);
+    } else {
+      render(new EmptyListView(), this.#container);
+    }
   }
 
   renderEvents() {

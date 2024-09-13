@@ -26,10 +26,33 @@ function getEventDurationTime(dateStart, dateEnd) {
   return durationTime;
 }
 
+// функция проверяет находится ли дата перед текущей
+function isBeforeDay(date) {
+  return dayjs().isAfter(date);
+}
+
+// функция проверяет находится ли дата сегодня
+function isSameDay(date) {
+  return dayjs().isSame(date);
+}
+
+// функция проверяет находится ли дата после текущей
+function isAfterDay(date) {
+  return dayjs().isBefore(date);
+}
+
 
 // функция отслеживает нажатие Esc
 function tracksClickEscape(evt) {
   return evt.key === 'Escape';
 }
 
-export {getRandomArrayElement, getFormettedEventDate, getEventDurationTime, tracksClickEscape};
+export {
+  getRandomArrayElement,
+  getFormettedEventDate,
+  getEventDurationTime,
+  tracksClickEscape,
+  isBeforeDay,
+  isSameDay,
+  isAfterDay
+};

@@ -4,7 +4,6 @@ import TripInfoView from '../view/trip-info-view/trip-info-view.js';
 import TripInfoMainView from '../view/trip-info-view/trip-info-main-view.js';
 import TripInfoCostView from '../view/trip-info-view/trip-info-cost-view.js';
 
-// import { render } from '../render.js';
 import { render } from '../framework/render.js';
 
 class HeaderPresenter {
@@ -25,16 +24,17 @@ class HeaderPresenter {
   init() {
     this.#events = [...this.#tripEventsModel.getEvents()];
 
-    // отрисовка информации о маршруте
-    render(new TripInfoMainView(this.#events),this.#TripInfoViewComponent.element);
-    // отрисовка информации о стоимости
-    render(new TripInfoCostView(this.#events), this.#TripInfoViewComponent.element);
+    if (this.#events.length !== 0) {
+      // отрисовка информации о маршруте
+      render(new TripInfoMainView(this.#events), this.#TripInfoViewComponent.element);
+      // отрисовка информации о стоимости
+      render(new TripInfoCostView(this.#events), this.#TripInfoViewComponent.element);
 
-    // отрисовка информации о маршруте
-    render(this.#TripInfoViewComponent, this.#tripInfoContainer, 'AFTERBEGIN');
-
+      // отрисовка информации о маршруте
+      render(this.#TripInfoViewComponent, this.#tripInfoContainer, 'AFTERBEGIN');
+    }
     // отрисовка фильтров
-    render(new FiltersView(), this.#filtersContainer);
+    render(new FiltersView(this.#events), this.#filtersContainer);
   }
 }
 

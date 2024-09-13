@@ -1,5 +1,7 @@
+import { isBeforeDay, isSameDay, isAfterDay} from './utils.js';
+
 // Константы
-const COUNT_TRIP_EVENTS = 5;
+const COUNT_TRIP_EVENTS = Math.floor(Math.random() * 10);
 
 
 const EVENT_TYPES = [
@@ -25,10 +27,25 @@ const EVENT_SORT = [
 
 
 const EVENT_FILTER = [
-  'everything',
-  'future',
-  'present',
-  'past'
+  {
+    name: 'everything',
+    status: (data) => data.length > 0,
+  },
+  {
+    name: 'future',
+    status: (data) => data.some((point) => !isBeforeDay(point.event.dateFrom)),
+  },
+  {
+    name: 'present',
+    status: (data) => data.some((point) =>
+      isAfterDay(point.event.dateFrom) || isSameDay(point.event.dateFrom) &&
+      isAfterDay(point.event.dateTo) || isSameDay(point.event.dateTo)
+    ),
+  },
+  {
+    name: 'past',
+    status: (data) => data.some((point) => !isAfterDay(point.event.dateTo)),
+  }
 ];
 
 
