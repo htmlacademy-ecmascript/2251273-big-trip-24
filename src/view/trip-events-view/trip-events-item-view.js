@@ -44,6 +44,7 @@ function createTripEventsList(point) {
 
 class TripEventsItemView extends AbstractView {
   #event;
+
   constructor(event, openEditEventForm) {
     super();
     this.#event = event;
@@ -58,6 +59,7 @@ class TripEventsItemView extends AbstractView {
 
   #openEditEventForm = (evt) => {
     evt.preventDefault();
+    this.#openEditEventForm();
   };
 }
 
