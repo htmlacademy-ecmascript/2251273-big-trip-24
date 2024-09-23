@@ -18,8 +18,8 @@ function createEditEventForm(point) {
                       <fieldset class="event__type-group">
                         <legend class="visually-hidden">Event type</legend>
                         ${EVENT_TYPES.map((type) => `<div class="event__type-item">
-                          <input id="event-type-${type.toLowerCase()}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type.toLowerCase()}" ${point.event.type === type.toLowerCase() ? 'checked' : ''}>
-                          <label class="event__type-label  event__type-label--${type.toLowerCase()}" for="event-type-${type.toLowerCase()}-1">${type}</label>
+                          <input id="event-type-${type}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type}" ${point.event.type === type ? 'checked' : ''}>
+                          <label class="event__type-label  event__type-label--${type}" for="event-type-${type}-1">${type}</label>
                         </div>`).join('')}
                       </fieldset>
                     </div>
@@ -88,15 +88,18 @@ function createEditEventForm(point) {
 
 class EditEventForm extends AbstractView {
   #event;
-  constructor(event, closeEditEventForm, onFormSubmit) {
+  #closeEditEventForm;
+  #handlerFormSubmit;
+
+  constructor(event, onEditEventForm, onFormSubmit) {
     super();
     this.#event = event;
-    this.#closeEditEventForm = closeEditEventForm;
-    this.#onFormSubmit = onFormSubmit;
+    this.#closeEditEventForm = onEditEventForm;
+    this.#handlerFormSubmit = onFormSubmit;
 
-    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#closeEditEventForm);
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editEventForm);
 
-    this.element.querySelector('.event--edit').addEventListener('submit', this.#onFormSubmit);
+    this.element.querySelector('.event--edit').addEventListener('submit', this.#formSubmit);
   }
 
   get template() {
@@ -104,13 +107,15 @@ class EditEventForm extends AbstractView {
   }
 
   // закрытие формы
-  #closeEditEventForm = (evt) => {
+  #editEventForm = (evt) => {
     evt.preventDefault();
+    this.#closeEditEventForm();
   };
 
   // отправка формы
-  #onFormSubmit = (evt) => {
+  #formSubmit = (evt) => {
     evt.preventDefault();
+    this.#handlerFormSubmit();
   };
 }
 

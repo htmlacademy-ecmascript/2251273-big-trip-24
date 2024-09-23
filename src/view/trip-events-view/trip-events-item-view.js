@@ -43,22 +43,40 @@ function createTripEventsList(point) {
 }
 
 class TripEventsItemView extends AbstractView {
-  #event;
-  constructor(event, openEditEventForm) {
+  #point;
+  #editEventFormHandler;
+  #favoriteClickHandler;
+
+  constructor(point, onEditFormClick, onFavoriteClick) {
     super();
-    this.#event = event;
-    this.#openEditEventForm = openEditEventForm;
+    this.#point = point;
+    this.#editEventFormHandler = onEditFormClick;
+    this.#favoriteClickHandler = onFavoriteClick;
 
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#openEditEventForm);
+
+    this.element.querySelector('.event__favorite-btn').addEventListener('click', this.#favoriteClick);
   }
 
   get template() {
-    return createTripEventsList(this.#event);
+    return createTripEventsList(this.#point);
   }
 
+  //
   #openEditEventForm = (evt) => {
     evt.preventDefault();
+    this.#editEventFormHandler();
   };
+
+  //
+  #favoriteClick = () => {
+    this.#favoriteClickHandler();
+  };
+
+  #test() {
+    console.log(this.#point);
+
+  }
 }
 
 export default TripEventsItemView;

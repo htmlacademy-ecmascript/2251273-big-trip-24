@@ -1,17 +1,21 @@
+import { isBeforeDay, isSameDay, isAfterDay} from './utils.js';
+
 // Константы
-const COUNT_TRIP_EVENTS = 5;
+const COUNT_TRIP_EVENTS = Math.floor(Math.random() * 10);
+
 
 const EVENT_TYPES = [
-  'Taxi',
-  'Bus',
-  'Train',
-  'Ship',
-  'Drive',
-  'Flight',
-  'Check-in',
-  'Sightseeing',
-  'Restaurant',
+  'taxi',
+  'bus',
+  'train',
+  'ship',
+  'drive',
+  'flight',
+  'check-in',
+  'sightseeing',
+  'restaurant',
 ];
+
 
 const EVENT_SORT = [
   'day',
@@ -21,12 +25,29 @@ const EVENT_SORT = [
   'offer'
 ];
 
+
 const EVENT_FILTER = [
-  'everything',
-  'future',
-  'present',
-  'past'
+  {
+    name: 'everything',
+    status: (data) => data.length > 0,
+  },
+  {
+    name: 'future',
+    status: (data) => data.some((point) => !isBeforeDay(point.event.dateFrom)),
+  },
+  {
+    name: 'present',
+    status: (data) => data.some((point) =>
+      isAfterDay(point.event.dateFrom) || isSameDay(point.event.dateFrom) &&
+      isAfterDay(point.event.dateTo) || isSameDay(point.event.dateTo)
+    ),
+  },
+  {
+    name: 'past',
+    status: (data) => data.some((point) => !isAfterDay(point.event.dateTo)),
+  }
 ];
+
 
 const DATE_FORMAT = {
   EVENT_TIME_FORMAT: 'HH:mm',
@@ -38,7 +59,9 @@ const DATE_FORMAT = {
   INPUT_DATE_FORMAT: 'DD/MM/YY HH:mm',
 };
 
+
 const HOURS = 24;
 const MINUTES = 60;
+
 
 export {COUNT_TRIP_EVENTS, DATE_FORMAT, HOURS, MINUTES, EVENT_TYPES, EVENT_SORT, EVENT_FILTER};
