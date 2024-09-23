@@ -306,6 +306,6 @@ const mockEvents = [
   }
 ];
 
-const getRandomMockEvent = () => getRandomArrayElement(mockEvents);
+const getMockEvent = () => getRandomArrayElement(mockEvents);
 
-export {getRandomMockEvent};
+export { getMockEvent };

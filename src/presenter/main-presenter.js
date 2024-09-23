@@ -1,24 +1,25 @@
 import SortView from '../view/sort-view/sort-view.js';
 import TripEventsListView from '../view/trip-events-view/trip-events-list-view.js';
-import TripEventsItemView from '../view/trip-events-view/trip-events-item-view.js';
-import EditEventFormView from '../view/form-view/edit-event-form-view.js';
 // import AddEventFormView from '../view/form-view/add-event-form-view.js';
 import EmptyListView from '../view/empty-list-view/empty-list-view.js';
 
-import { render, replace } from '../framework/render.js';
+import EventPresenter from '../presenter/event-presenter.js';
 
-import {COUNT_TRIP_EVENTS} from '../constants.js';
+import { render } from '../framework/render.js';
 
-import { tracksClickEscape } from '../utils.js';
+import { COUNT_TRIP_EVENTS } from '../constants.js';
+
+import { updateItem } from '../utils.js';
+
 
 class MainPresenter {
-  // список событий
   #tripEventsListComponent = new TripEventsListView();
   #container = null;
   #tripEventsModel = null;
   #events = null;
 
-  // конструктор
+  #eventPresenters = new Map();
+
   constructor(container, tripEventsModel) {
     this.#container = container;
     this.#tripEventsModel = tripEventsModel;
@@ -31,68 +32,39 @@ class MainPresenter {
     // отрисовка сортировки
     render(new SortView(), this.#container);
 
-    // отрисовка списка событий
-    // добавление в компонет списка событий элемемта
-    this.renderEvents();
-
     if (this.#events.length !== 0) {
       render(this.#tripEventsListComponent, this.#container);
+
+      for (let i = 0; i < COUNT_TRIP_EVENTS; i++) {
+        this.#renderEvent(this.#events[i]);
+      }
+
     } else {
       render(new EmptyListView(), this.#container);
     }
   }
 
-  renderEvents() {
-    // отрисовка списка событий
-    for (let i = 0; i < COUNT_TRIP_EVENTS; i++) {
-      this.renderEvent(this.#events[i]);
-    }
-  }
+  #handleTripEventChange = (updatedEvent) => {
+    // this.#events = updateItem(this.#events, updatedEvent);
+    this.#eventPresenters = updateItem(this.#events, updatedEvent);
+    this.#eventPresenters.get(updatedEvent.id).init(updatedEvent);
+    // console.log(this.#eventPresenters.get(updatedEvent.id));
+    // console.log(this.#eventPresenters);
+    // this.#eventPresenters.get(updatedEvent.id);
+  };
 
-  renderEvent(event) {
-
-    const escKeyDownHandler = (evt) => {
-      if (tracksClickEscape(evt)) {
-        evt.preventDefault();
-        replaceToEventComponent();
-        document.removeEventListener('keydown', escKeyDownHandler);
-      }
-    };
-
-    // добавление в компонет списка событий элемемта
-    const eventComponent = new TripEventsItemView(
-      event, // точка маршрута
-      () => {
-        replaceToEventEditComponent();
-        document.addEventListener('keydown', escKeyDownHandler);
-      } // открытие формы редактирования
+  #renderEvent(event) {
+    const eventPresenter = new EventPresenter(
+      this.#tripEventsListComponent.element,
+      this.#handleTripEventChange
     );
 
-    // добавление в компонет списка событий элемемта
-    const eventEditComponent = new EditEventFormView(
-      event, // точка маршрута
-      () => {
-        replaceToEventComponent();
-        document.removeEventListener('keydown', escKeyDownHandler);
-      }, // закрытие формы редактирования
-      () => {
-        replaceToEventComponent();
-        document.removeEventListener('keydown', escKeyDownHandler);
-      }, // отправка формы
-    );
+    // eventPresenter.init(event);
 
-
-    function replaceToEventComponent() {
-      replace(eventComponent, eventEditComponent);
-    }
-
-    function replaceToEventEditComponent() {
-      replace(eventEditComponent, eventComponent);
-    }
-
-
-    render(eventComponent, this.#tripEventsListComponent.element);
+    this.#eventPresenters.set(event.id, event);
+    eventPresenter.init(this.#eventPresenters.get(event.id, event));
   }
+
 }
 
 export default MainPresenter;

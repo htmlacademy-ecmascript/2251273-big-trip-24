@@ -1,17 +1,14 @@
-// import dayjs from 'dayjs';
-
 import { COUNT_TRIP_EVENTS } from '../constants.js';
 
-import { getRandomMockEvent } from '../mock/events-mock.js';
+import { getMockEvent } from '../mock/events-mock.js';
 import { getMockOffers } from '../mock/offers-mock.js';
 import { getMockCities } from '../mock/cities-mock.js';
 
 
 class EventsModel {
-  #events = Array.from({ length: COUNT_TRIP_EVENTS }, getRandomMockEvent);
+  #events = Array.from({ length: COUNT_TRIP_EVENTS }, getMockEvent);
   #offers = getMockOffers();
   #cities = getMockCities();
-
   getEvents() {
     const eventsArray = [];
 
@@ -19,6 +16,8 @@ class EventsModel {
 
     sortedEvents.forEach((eventItem) => {
       const eventInfo = {
+        id: eventItem.id,
+        isFavorite: eventItem.isFavorite,
         event: eventItem,
         city: this.getCityById(eventItem.destination),
         offers: {

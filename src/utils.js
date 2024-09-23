@@ -47,6 +47,11 @@ function tracksClickEscape(evt) {
   return evt.key === 'Escape';
 }
 
+// функция обновляет элемент в массиве
+function updateItem(items, update) {
+  return items.map((item) => item.id === update.id ? update : item);
+}
+
 export {
   getRandomArrayElement,
   getFormettedEventDate,
@@ -54,5 +59,6 @@ export {
   tracksClickEscape,
   isBeforeDay,
   isSameDay,
-  isAfterDay
+  isAfterDay,
+  updateItem
 };

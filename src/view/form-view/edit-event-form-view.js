@@ -89,15 +89,15 @@ function createEditEventForm(point) {
 class EditEventForm extends AbstractView {
   #event;
   #closeEditEventForm;
-  #formSubmit;
+  #handlerFormSubmit;
 
-  constructor(event, closeEditEventForm, onFormSubmit) {
+  constructor(event, onEditEventForm, onFormSubmit) {
     super();
     this.#event = event;
-    this.#closeEditEventForm = closeEditEventForm;
-    this.#formSubmit = onFormSubmit;
+    this.#closeEditEventForm = onEditEventForm;
+    this.#handlerFormSubmit = onFormSubmit;
 
-    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#closeEditEventForm);
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editEventForm);
 
     this.element.querySelector('.event--edit').addEventListener('submit', this.#formSubmit);
   }
@@ -107,16 +107,16 @@ class EditEventForm extends AbstractView {
   }
 
   // закрытие формы
-  // #closeEditEventForm = (evt) => {
-  //   evt.preventDefault();
-  //   this.#closeEditEventForm();
-  // };
+  #editEventForm = (evt) => {
+    evt.preventDefault();
+    this.#closeEditEventForm();
+  };
 
   // отправка формы
-  // #formSubmit = (evt) => {
-  //   evt.preventDefault();
-  //   this.#formSubmit();
-  // };
+  #formSubmit = (evt) => {
+    evt.preventDefault();
+    this.#handlerFormSubmit();
+  };
 }
 
 export default EditEventForm;
